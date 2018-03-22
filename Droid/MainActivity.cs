@@ -10,6 +10,7 @@ using Android.OS;
 using TODODemo.Data;
 using TODODemo.Droid.DependencyServices;
 using TODODemo.Data.Managers;
+using Plugin.Permissions;
 
 namespace TODODemo.Droid
 {
@@ -29,6 +30,11 @@ namespace TODODemo.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             LoadApplication(new App());
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
