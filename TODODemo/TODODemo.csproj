@@ -71,6 +71,7 @@
       <DependentUpon>AddTaskPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AddTaskViewModel.cs" />
+    <Compile Include="ViewModel\TasksViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

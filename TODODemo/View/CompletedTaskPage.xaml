@@ -1,5 +1,29 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TODODemo.View.CompletedTaskPage">
     <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <Label Text="No task completed found" TextColor="Red" Font="Bold, 14" HorizontalOptions="Center" 
+                   VerticalOptions="CenterAndExpand" IsVisible="{Binding NoHasItems}"/>
+            <ListView ItemsSource="{Binding Items}"
+                      CachingStrategy="RecycleElement"
+                      HasUnevenRows="true"
+                      IsVisible="{Binding HasItems}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <StackLayout Grid.Column="0" Grid.Row="0">
+                                    <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand" Margin="10,0,10,0">
+                                        <Label Text="{Binding Content}" HorizontalOptions="Start"  />
+                                        <Label Text="{Binding LastModified, StringFormat='{0:MMM/dd/yyyy HH:mm}'}" Font="12"  HorizontalOptions="Start"/>
+                      
+                                    </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
