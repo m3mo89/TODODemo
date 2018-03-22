@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using TODODemo.ViewModel;
 using Xamarin.Forms;
 
-namespace TODODemo.View
+namespace TODODemo.Views
 {
-    public partial class PendingTaskPage : ContentPage
+    public partial class CompletedTaskPage : ContentPage
     {
         TasksViewModel tasksViewModel;
-        public PendingTaskPage()
+
+        public CompletedTaskPage()
         {
             InitializeComponent();
+
             tasksViewModel = new TasksViewModel();
             BindingContext = tasksViewModel;
         }
 
-		protected override void OnAppearing()
-		{
+        protected override void OnAppearing()
+        {
             base.OnAppearing();
 
-            tasksViewModel.Title = "Pending";
+            tasksViewModel.Title = "Completed";
             tasksViewModel.LoadData();
-		}
-	}
+        }
+    }
 }

@@ -30,19 +30,19 @@
   <ItemGroup>
     <EmbeddedResource Include="App.xaml" />
     <EmbeddedResource Include="TODODemoPage.xaml" />
-    <EmbeddedResource Include="View\PendingTaskPage.xaml">
+    <EmbeddedResource Include="Views\PendingTaskPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CompletedTaskPage.xaml">
+    <EmbeddedResource Include="Views\CompletedTaskPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\AddTaskPage.xaml">
+    <EmbeddedResource Include="Views\AddTaskPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\ShowImagePage.xaml">
+    <EmbeddedResource Include="Views\ShowImagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -61,25 +61,28 @@
     <Compile Include="Data\Models\StatusType.cs" />
     <Compile Include="Data\Models\TodoItem.cs" />
     <Compile Include="Data\Repositories\TodoItemRepository.cs" />
-    <Compile Include="View\PendingTaskPage.xaml.cs">
+    <Compile Include="Views\PendingTaskPage.xaml.cs">
       <DependentUpon>PendingTaskPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CompletedTaskPage.xaml.cs">
+    <Compile Include="Views\CompletedTaskPage.xaml.cs">
       <DependentUpon>CompletedTaskPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\Managers\ConnectionManager.cs" />
     <Compile Include="Data\Managers\TodoItemManager.cs" />
     <Compile Include="ViewModel\TodoDemoViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="View\AddTaskPage.xaml.cs">
+    <Compile Include="Views\AddTaskPage.xaml.cs">
       <DependentUpon>AddTaskPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AddTaskViewModel.cs" />
     <Compile Include="ViewModel\TasksViewModel.cs" />
-    <Compile Include="View\ShowImagePage.xaml.cs">
+    <Compile Include="Views\ShowImagePage.xaml.cs">
       <DependentUpon>ShowImagePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ShowImageViewModel.cs" />
+    <Compile Include="Behaviors\BehaviorBase.cs" />
+    <Compile Include="Behaviors\EventToCommandBehavior.cs" />
+    <Compile Include="Converters\SelectedItemEventArgsToSelectedItemConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
@@ -127,9 +130,11 @@
     <Folder Include="DependecyServices\" />
     <Folder Include="Data\Repositories\" />
     <Folder Include="Data\Models\" />
-    <Folder Include="View\" />
+    <Folder Include="Views\" />
     <Folder Include="Data\Managers\" />
     <Folder Include="ViewModel\" />
+    <Folder Include="Behaviors\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

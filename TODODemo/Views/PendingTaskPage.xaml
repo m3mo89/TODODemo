@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="TODODemo.View.PendingTaskPage"
+             x:Class="TODODemo.Views.PendingTaskPage"
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             xmlns:converters="clr-namespace:TODODemo.Converters"
+             xmlns:behaviors="clr-namespace:TODODemo.Behaviors"
              Title="{Binding Title}"
              x:Name="TaskPendingView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <Label Text="No task pending found" TextColor="Red" Font="Bold, 14" HorizontalOptions="Center" 
@@ -14,6 +21,11 @@
                       HasUnevenRows="true"
                       RowHeight="80"
                       IsVisible="{Binding HasItems}">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="ItemSelected"
+                                                      Command="{Binding EditTaskCommand}"
+                                                      Converter="{StaticResource SelectedItemConverter}"/>
+                </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

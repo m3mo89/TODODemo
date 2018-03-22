@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TODODemo.View;
+using TODODemo.Views;
 using Xamarin.Forms;
 
 namespace TODODemo.ViewModel

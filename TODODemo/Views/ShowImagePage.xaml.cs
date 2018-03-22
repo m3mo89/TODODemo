@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TODODemo.ViewModel;
 using Xamarin.Forms;
 
-namespace TODODemo.View
+namespace TODODemo.Views
 {
     public partial class ShowImagePage : ContentPage
     {

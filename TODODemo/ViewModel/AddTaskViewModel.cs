@@ -53,6 +53,17 @@ namespace TODODemo.ViewModel
             }
         }
 
+        private TodoItem _todoItem = null;
+        public TodoItem TodoItem
+        {
+            get => _todoItem;
+            set
+            {
+                _todoItem = value;
+                OnPropertyChanged("TodoItem");
+            }
+        }
+
         public Command SaveTaskCommand { get; set; }
 
         public Command AddImageCommand { get; set; }
@@ -61,10 +72,42 @@ namespace TODODemo.ViewModel
         {
             ImagePath = "ImgProfile.png";
 
+
             SaveTaskCommand = new Command(async () => await SaveTask(), () => !IsBusy);
 
             AddImageCommand = new Command(async () => await AddImageTask(), () => !IsBusy);
         }
+
+        public async void LoadData()
+        {
+            if (IsBusy)
+                return;
+
+            if (TodoItem == null)
+                return;
+            
+            Exception error = null;
+
+            try
+            {
+                IsBusy = true;
+
+                ImagePath = TodoItem.Image;
+                Content = TodoItem.Content;
+
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (error != null)
+                await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
+        } 
 
         private async Task AddImageTask()
         {
@@ -141,15 +184,22 @@ namespace TODODemo.ViewModel
             {
                 IsBusy = true;
 
+                if(string.IsNullOrEmpty(Content))
+                {
+                    throw new Exception("The field Content is mandatory");
+                }
+
                 _manager = new TodoItemManager();
 
-                TodoItem item = new TodoItem();
-                item.Content = Content;
-                item.Status = StatusType.Pending;
-                item.Image = ImagePath;
-                item.LastModified = DateTime.Now;
+                if(TodoItem==null)
+                    TodoItem = new TodoItem();
+                
+                TodoItem.Content = Content;
+                TodoItem.Status = StatusType.Pending;
+                TodoItem.Image = ImagePath;
+                TodoItem.LastModified = DateTime.Now;
 
-                var result = await _manager.SaveOrUpdateInDBAsync(item);
+                var result = await _manager.SaveOrUpdateInDBAsync(TodoItem);
 
                 if (result)
                     await Application.Current.MainPage.Navigation.PopAsync();

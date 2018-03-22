@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TODODemo.Data.Managers;
 using TODODemo.Data.Models;
-using TODODemo.View;
+using TODODemo.Views;
 using Xamarin.Forms;
 
 namespace TODODemo.ViewModel
@@ -80,6 +80,7 @@ namespace TODODemo.ViewModel
         }
 
         public Command ShowImageItemCommand { get; set; }
+        public Command EditTaskCommand { get; set; }
 
         public TasksViewModel()
         {
@@ -87,6 +88,8 @@ namespace TODODemo.ViewModel
             Items = new ObservableCollection<TodoItem>();
 
             ShowImageItemCommand = new Command(async (id) => await ShowImageItem(id), (id) => !IsBusy);
+
+            EditTaskCommand = new Command<TodoItem>(async (item) => await EditTask(item), (item) => !IsBusy);
         }
 
         public async void LoadData()
@@ -153,6 +156,40 @@ namespace TODODemo.ViewModel
 
             if (error != null)
                 await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
+        }
+
+
+        private async Task EditTask(TodoItem item)
+        {
+            if (IsBusy)
+                return;
+
+            if (item == null)
+                return;
+
+            Exception error = null;
+
+            try
+            {
+                IsBusy = true;
+
+                AddTaskPage page = new AddTaskPage(item);
+
+                await Application.Current.MainPage.Navigation.PushAsync(page);
+
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (error != null)
+                await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
+            
         }
     }
 }
