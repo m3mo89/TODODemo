@@ -11,6 +11,7 @@ using TODODemo.Data;
 using TODODemo.Droid.DependencyServices;
 using TODODemo.Data.Managers;
 using Plugin.Permissions;
+using ImageCircle.Forms.Plugin.Droid;
 
 namespace TODODemo.Droid
 {
@@ -28,6 +29,8 @@ namespace TODODemo.Droid
             ConnectionManager.Instance.Initialize(new ISQLiteManagerImp());
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            ImageCircleRenderer.Init();
 
             LoadApplication(new App());
         }

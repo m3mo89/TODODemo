@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using TODODemo.Data.Managers;
 using TODODemo.Data.Models;
+using TODODemo.View;
 using Xamarin.Forms;
 
 namespace TODODemo.ViewModel
@@ -77,10 +79,14 @@ namespace TODODemo.ViewModel
             }
         }
 
+        public Command ShowImageItemCommand { get; set; }
+
         public TasksViewModel()
         {
             _manager = new TodoItemManager();
             Items = new ObservableCollection<TodoItem>();
+
+            ShowImageItemCommand = new Command(async (id) => await ShowImageItem(id), (id) => !IsBusy);
         }
 
         public async void LoadData()
@@ -99,6 +105,42 @@ namespace TODODemo.ViewModel
                     Items = new ObservableCollection<TodoItem>(await _manager.GetAllPendingTaskAsync());
                 }else
                     Items = new ObservableCollection<TodoItem>(await _manager.GetAllCompletedTaskAsync());
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (error != null)
+                await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
+        }
+
+        private async Task ShowImageItem(object id)
+        {
+            if (IsBusy)
+                return;
+
+            if (id == null)
+                return;
+
+            Exception error = null;
+
+            try
+            {
+                IsBusy = true;
+
+                int idItem = 0;
+
+                int.TryParse(id.ToString(), out idItem);
+
+                ShowImagePage page = new ShowImagePage(idItem);
+
+                await Application.Current.MainPage.Navigation.PushModalAsync(page);
+
             }
             catch (Exception ex)
             {

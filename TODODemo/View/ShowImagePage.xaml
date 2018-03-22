@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TODODemo.View.ShowImagePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout BackgroundColor="#2196F3" Orientation="Vertical" VerticalOptions="StartAndExpand"
+                     HorizontalOptions="FillAndExpand">
+                <StackLayout.HeightRequest>
+                  <OnPlatform x:TypeArguments="x:Double" iOS="64" Android="50" />
+                </StackLayout.HeightRequest>
+                <StackLayout.MinimumHeightRequest>
+                  <OnPlatform x:TypeArguments="x:Double" iOS="64" Android="50" />
+                </StackLayout.MinimumHeightRequest>
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand" Padding="0,15,15,0">
+                    <Label Text="Close" TextColor="White" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding CloseWindowCommand}"
+                                NumberOfTapsRequired="1"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Image Source="ic_close_white" Aspect="AspectFit">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding CloseWindowCommand}"
+                                NumberOfTapsRequired="1"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+            </StackLayout>
+            <Image Source="{Binding ImageItem}" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Aspect="AspectFit" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

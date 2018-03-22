@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using ImageCircle.Forms.Plugin.iOS;
 using TODODemo.Data;
 using TODODemo.Data.Managers;
 using TODODemo.iOS.DependencyServices;
@@ -19,6 +20,8 @@ namespace TODODemo.iOS
             ConnectionManager.Instance.Initialize(new ISQLiteManagerImp());
 
             global::Xamarin.Forms.Forms.Init();
+
+            ImageCircleRenderer.Init();
 
             LoadApplication(new App());
 

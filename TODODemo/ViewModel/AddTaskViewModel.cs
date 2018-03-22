@@ -24,9 +24,10 @@ namespace TODODemo.ViewModel
             set
             {
                 _isBusy = value;
-                OnPropertyChanged();
+                OnPropertyChanged("IsBusy");
 
                 SaveTaskCommand.ChangeCanExecute();
+                AddImageCommand.ChangeCanExecute();
             }
         }
 

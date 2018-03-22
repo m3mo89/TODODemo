@@ -110,5 +110,15 @@ namespace TODODemo.Data.Repositories
         {
             return await ConnectionAsync.FindAsync<T>(wherePredicate).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Finds the by identifier.
+        /// </summary>
+        /// <returns>The by identifier.</returns>
+        /// <param name="primaryKeyId">Primary key identifier.</param>
+        public async Task<T> FindById(object primaryKeyId)
+        {
+            return await ConnectionAsync.FindAsync<T>(primaryKeyId).ConfigureAwait(false);
+        }
     }
 }

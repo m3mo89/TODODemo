@@ -69,5 +69,12 @@ namespace TODODemo.Data.Repositories
             return items;
         }
 
+        public async Task<TodoItem> GetTaskByIdAsync(int id)
+        {
+            var item = await base.FindById(id);
+
+            return item;
+        }
+
     }
 }

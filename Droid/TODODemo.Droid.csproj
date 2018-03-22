@@ -139,6 +139,12 @@
     <Reference Include="Plugin.Media">
       <HintPath>..\packages\Xam.Plugin.Media.3.1.3\lib\MonoAndroid10\Plugin.Media.dll</HintPath>
     </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.2.0.2\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Android">
+      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.2.0.2\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TODODemo\TODODemo.csproj">
@@ -169,6 +175,12 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable\ImgProfile.png" />
     <AndroidResource Include="Resources\xml\file_paths.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_close_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_close_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_close_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_playlist_add_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_playlist_add_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_playlist_add_white.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DependencyServices\" />

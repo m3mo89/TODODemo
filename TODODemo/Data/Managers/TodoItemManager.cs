@@ -73,5 +73,20 @@ namespace TODODemo.Data.Managers
             }
             return items;
         }
+
+        public async Task<TodoItem> GetTaskById(int id)
+        {
+
+            TodoItem item = null;
+            try
+            {
+                item = await _repo.GetTaskByIdAsync(id);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return item;
+        }
     }
 }
