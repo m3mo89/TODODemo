@@ -28,6 +28,22 @@ namespace TODODemo.ViewModel
 
                 SaveTaskCommand.ChangeCanExecute();
                 AddImageCommand.ChangeCanExecute();
+                CompleteTaskCommand.ChangeCanExecute();
+            }
+        }
+
+
+        private bool _isVisible;
+        public bool IsVisible
+        {
+            get
+            {
+                return _isVisible;
+            }
+            set
+            {
+                _isVisible = value;
+                OnPropertyChanged("IsVisible");
             }
         }
 
@@ -65,17 +81,17 @@ namespace TODODemo.ViewModel
         }
 
         public Command SaveTaskCommand { get; set; }
-
         public Command AddImageCommand { get; set; }
+        public Command CompleteTaskCommand { get; set; }
 
         public AddTaskViewModel()
         {
             ImagePath = "ImgProfile.png";
-
+            IsVisible = false;
 
             SaveTaskCommand = new Command(async () => await SaveTask(), () => !IsBusy);
-
             AddImageCommand = new Command(async () => await AddImageTask(), () => !IsBusy);
+            CompleteTaskCommand = new Command(async () => await CompleteTask(), () => !IsBusy);
         }
 
         public async void LoadData()
@@ -91,6 +107,8 @@ namespace TODODemo.ViewModel
             try
             {
                 IsBusy = true;
+
+                IsVisible = true;
 
                 ImagePath = TodoItem.Image;
                 Content = TodoItem.Content;
@@ -198,6 +216,46 @@ namespace TODODemo.ViewModel
                 TodoItem.Status = StatusType.Pending;
                 TodoItem.Image = ImagePath;
                 TodoItem.LastModified = DateTime.Now;
+
+                var result = await _manager.SaveOrUpdateInDBAsync(TodoItem);
+
+                if (result)
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                else
+                    throw new Exception("An error ocurred while saving the data");
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (error != null)
+                await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
+        }
+
+        private async Task CompleteTask()
+        {
+            if (IsBusy)
+                return;
+
+            Exception error = null;
+
+            try
+            {
+                IsBusy = true;
+
+                var answer = await Application.Current.MainPage.DisplayAlert("Complete Task", "Do you want to complete the task?", "Yes", "No");
+
+                if (!answer)
+                    return;
+                
+                _manager = new TodoItemManager();
+
+                TodoItem.Status = StatusType.Completed;
 
                 var result = await _manager.SaveOrUpdateInDBAsync(TodoItem);
 

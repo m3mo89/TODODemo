@@ -4,7 +4,7 @@
             x:Class="TODODemo.TODODemoPage"
             xmlns:local="clr-namespace:TODODemo.Views">
     <TabbedPage.ToolbarItems>
-        <ToolbarItem Text="Agregar" Command="{Binding AddTaskCommand}"/>
+        <ToolbarItem Text="Agregar" Icon="ic_playlist_add_white" Command="{Binding AddTaskCommand}"/>
     </TabbedPage.ToolbarItems>
 
     <local:PendingTaskPage Title="Pending" />
