@@ -7,6 +7,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using TODODemo.Data;
+using TODODemo.Droid.DependencyServices;
+using TODODemo.Data.Managers;
 
 namespace TODODemo.Droid
 {
@@ -19,6 +22,9 @@ namespace TODODemo.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
+
+            //Initialize the SQLite Manager
+            ConnectionManager.Instance.Initialize(new ISQLiteManagerImp());
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 

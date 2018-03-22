@@ -8,7 +8,7 @@ namespace TODODemo
         {
             InitializeComponent();
 
-            MainPage = new TODODemoPage();
+            MainPage = new NavigationPage(new TODODemoPage());
         }
 
         protected override void OnStart()

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TODODemo.View.AddTaskPage">
+    <ContentPage.Content>
+        <StackLayout Margin="20" VerticalOptions="StartAndExpand">
+        <Label Text="Content" Font="Bold"/>
+        <Editor x:Name="Content" Text="{Binding Content}" />
+        <Button Text="Save" Command="{Binding SaveTaskCommand}" />
+</StackLayout>
+    </ContentPage.Content>
+</ContentPage>

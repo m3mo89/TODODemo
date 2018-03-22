@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using TODODemo.Data;
+using TODODemo.Data.Managers;
+using TODODemo.iOS.DependencyServices;
 using UIKit;
 
 namespace TODODemo.iOS
@@ -12,6 +15,9 @@ namespace TODODemo.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            //Initialize the SQLite Manager
+            ConnectionManager.Instance.Initialize(new ISQLiteManagerImp());
+
             global::Xamarin.Forms.Forms.Init();
 
             LoadApplication(new App());
