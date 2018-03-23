@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TODODemo.Data.Managers;
 using TODODemo.Data.Models;
+using TODODemo.DependecyServices;
 using TODODemo.Views;
 using Xamarin.Forms;
 
@@ -23,6 +24,8 @@ namespace TODODemo.ViewModel
             {
                 _isBusy = value;
                 OnPropertyChanged();
+
+                ShareTaskCommand.ChangeCanExecute();
             }
         }
 
@@ -81,6 +84,7 @@ namespace TODODemo.ViewModel
 
         public Command ShowImageItemCommand { get; set; }
         public Command EditTaskCommand { get; set; }
+        public Command ShareTaskCommand { get; set; }
 
         public TasksViewModel()
         {
@@ -88,8 +92,9 @@ namespace TODODemo.ViewModel
             Items = new ObservableCollection<TodoItem>();
 
             ShowImageItemCommand = new Command(async (id) => await ShowImageItem(id), (id) => !IsBusy);
-
             EditTaskCommand = new Command<TodoItem>(async (item) => await EditTask(item), (item) => !IsBusy);
+            ShareTaskCommand = new Command(async (item) => await ShareTask(item), (item) => !IsBusy);
+      
         }
 
         public async void LoadData()
@@ -190,6 +195,36 @@ namespace TODODemo.ViewModel
             if (error != null)
                 await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
             
+        }
+
+        private async Task ShareTask(object item)
+        {
+            if (IsBusy)
+                return;
+
+            Exception error = null;
+
+            try
+            {
+                IsBusy = true;
+
+                var todoItem = (TodoItem)item;
+
+                DependencyService.Get<IShareFile>().ShareLocalFile(todoItem);
+
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (error != null)
+                await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
+
         }
     }
 }

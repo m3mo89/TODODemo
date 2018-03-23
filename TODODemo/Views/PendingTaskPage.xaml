@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              xmlns:converters="clr-namespace:TODODemo.Converters"
              xmlns:behaviors="clr-namespace:TODODemo.Behaviors"
+             xmlns:renderers="clr-namespace:TODODemo.Renderers"
              Title="{Binding Title}"
              x:Name="TaskPendingView">
     <ContentPage.Resources>
@@ -37,6 +38,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 
                                 <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="10,0,10,0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
@@ -51,7 +53,12 @@
                                 </StackLayout>
                                 <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Vertical" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Margin="10,0,10,0">
                                     <Label Text="{Binding Content}" HorizontalOptions="Start"  />
-                                    <Label Text="{Binding LastModified, StringFormat='{0:MMM/dd/yyyy HH:mm}'}" Font="12"  HorizontalOptions="Start"/> 
+                                    <Label Text="{Binding LastModified, StringFormat='{0:MMM/dd/yyyy HH:mm}'}" Font="12"  HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Vertical" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Margin="10,0,20,0">
+                                     <renderers:CustomButton Image="ic_share" BackgroundColor="Transparent" Command="{Binding Path=BindingContext.ShareTaskCommand,Source={x:Reference TaskPendingView}}" 
+                                             CommandParameter="{Binding .}" 
+                                             HorizontalOptions="End"/>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>
