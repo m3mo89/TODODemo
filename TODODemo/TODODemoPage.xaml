@@ -7,6 +7,6 @@
         <ToolbarItem Text="Agregar" Icon="ic_playlist_add_white" Command="{Binding AddTaskCommand}"/>
     </TabbedPage.ToolbarItems>
 
-    <local:PendingTaskPage Title="Pending" />
-    <local:CompletedTaskPage Title="Completed"/>
+    <local:PendingTaskPage Title="Pending" Icon="ic_list_white" />
+    <local:CompletedTaskPage Title="Completed" Icon="ic_playlist_add_check_white"/>
 </TabbedPage>

@@ -189,6 +189,12 @@
     <AndroidResource Include="Resources\drawable-hdpi\ic_share.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_share.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_share.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_list_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_list_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_list_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_check_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_check_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_check_white.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DependencyServices\" />

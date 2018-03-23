@@ -170,6 +170,12 @@
     <BundleResource Include="Resources\ic_share.png" />
     <BundleResource Include="Resources\ic_share%402x.png" />
     <BundleResource Include="Resources\ic_share%403x.png" />
+    <BundleResource Include="Resources\ic_check_white.png" />
+    <BundleResource Include="Resources\ic_check_white%402x.png" />
+    <BundleResource Include="Resources\ic_check_white%403x.png" />
+    <BundleResource Include="Resources\ic_list_white.png" />
+    <BundleResource Include="Resources\ic_list_white%402x.png" />
+    <BundleResource Include="Resources\ic_list_white%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.targets')" />
