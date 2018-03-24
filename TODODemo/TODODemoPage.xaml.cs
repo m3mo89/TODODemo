@@ -1,15 +1,24 @@
-﻿using TODODemo.ViewModel;
+﻿using TODODemo.Renderers;
+using TODODemo.ViewModel;
+using TODODemo.Views;
 using Xamarin.Forms;
 
 namespace TODODemo
 {
-    public partial class TODODemoPage : TabbedPage
+    public partial class TODODemoPage : SearchPage
     {
+        TasksViewModel tasksViewModel;
+
         public TODODemoPage()
         {
             InitializeComponent();
 
-            BindingContext = new TodoDemoViewModel();
+            tasksViewModel = new TasksViewModel();
+
+            BindingContext = tasksViewModel;
+
+            Children.Add(new PendingTaskPage(tasksViewModel){ Title="Pending", Icon = "ic_list_white"});
+            Children.Add(new CompletedTaskPage(tasksViewModel){Title="Completed", Icon = "ic_playlist_add_check_white"});
         }
-    }
+	}
 }

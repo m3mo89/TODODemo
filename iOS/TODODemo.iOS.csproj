@@ -141,6 +141,7 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="DependencyServices\" />
+    <Folder Include="Renderers\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -155,6 +156,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="DependencyServices\ISQLiteManagerImp.cs" />
     <Compile Include="DependencyServices\IShareFileImp.cs" />
+    <Compile Include="Renderers\SearchPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ImgProfile.png" />

@@ -2853,6 +2853,9 @@ namespace TODODemo.Droid
 			// aapt resource value: 0x7f090043
 			public const int action_mode_close_button = 2131296323;
 			
+			// aapt resource value: 0x7f0900b6
+			public const int action_search = 2131296438;
+			
 			// aapt resource value: 0x7f09009d
 			public const int action_text = 2131296413;
 			
@@ -3639,6 +3642,22 @@ namespace TODODemo.Droid
 			}
 			
 			private Layout()
+			{
+			}
+		}
+		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f0f0000
+			public const int mainmenu = 2131689472;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
 			{
 			}
 		}

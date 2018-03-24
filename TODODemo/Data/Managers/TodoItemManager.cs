@@ -74,6 +74,11 @@ namespace TODODemo.Data.Managers
             return items;
         }
 
+        /// <summary>
+        /// Gets the task by identifier.
+        /// </summary>
+        /// <returns>The task by identifier.</returns>
+        /// <param name="id">Identifier.</param>
         public async Task<TodoItem> GetTaskById(int id)
         {
 
@@ -87,6 +92,21 @@ namespace TODODemo.Data.Managers
                 Debug.WriteLine(ex);
             }
             return item;
+        }
+
+
+        public async Task<IList<TodoItem>> GetTaskByContentAndStatus(string busqueda, StatusType status)
+        {
+            IList<TodoItem> items = null;
+            try
+            {
+                items = await _repo.GetTaskByContentAndStatus(busqueda, status);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return items;
         }
     }
 }

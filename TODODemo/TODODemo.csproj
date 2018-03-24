@@ -69,7 +69,6 @@
     </Compile>
     <Compile Include="Data\Managers\ConnectionManager.cs" />
     <Compile Include="Data\Managers\TodoItemManager.cs" />
-    <Compile Include="ViewModel\TodoDemoViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="Views\AddTaskPage.xaml.cs">
       <DependentUpon>AddTaskPage.xaml</DependentUpon>
@@ -86,6 +85,7 @@
     <Compile Include="Controls\BindableToolbarItem.cs" />
     <Compile Include="DependecyServices\IShareFile.cs" />
     <Compile Include="Renderers\CustomButton.cs" />
+    <Compile Include="Renderers\SearchPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

@@ -7,20 +7,22 @@ namespace TODODemo.Views
 {
     public partial class PendingTaskPage : ContentPage
     {
-        TasksViewModel tasksViewModel;
-        public PendingTaskPage()
+        TasksViewModel _tasksViewModel;
+
+        public PendingTaskPage(TasksViewModel tasksViewModel)
         {
             InitializeComponent();
-            tasksViewModel = new TasksViewModel();
-            BindingContext = tasksViewModel;
+            _tasksViewModel = tasksViewModel;
+            BindingContext = _tasksViewModel;
         }
 
 		protected override void OnAppearing()
 		{
             base.OnAppearing();
 
-            tasksViewModel.Title = "Pending";
-            tasksViewModel.LoadData();
+
+            _tasksViewModel.Title = "Pending";
+            _tasksViewModel.LoadData();
 		}
 	}
 }

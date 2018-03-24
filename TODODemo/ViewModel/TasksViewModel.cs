@@ -26,6 +26,24 @@ namespace TODODemo.ViewModel
                 OnPropertyChanged();
 
                 ShareTaskCommand.ChangeCanExecute();
+                AddTaskCommand.ChangeCanExecute();
+                SearchCommand.ChangeCanExecute();
+                ShowImageItemCommand.ChangeCanExecute();
+                EditTaskCommand.ChangeCanExecute();
+            }
+        }
+
+
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged("SearchText");
+
+                Search(SearchText);
             }
         }
 
@@ -85,6 +103,8 @@ namespace TODODemo.ViewModel
         public Command ShowImageItemCommand { get; set; }
         public Command EditTaskCommand { get; set; }
         public Command ShareTaskCommand { get; set; }
+        public Command SearchCommand { get; set; }
+        public Command AddTaskCommand { get; set; }
 
         public TasksViewModel()
         {
@@ -94,7 +114,8 @@ namespace TODODemo.ViewModel
             ShowImageItemCommand = new Command(async (id) => await ShowImageItem(id), (id) => !IsBusy);
             EditTaskCommand = new Command<TodoItem>(async (item) => await EditTask(item), (item) => !IsBusy);
             ShareTaskCommand = new Command(async (item) => await ShareTask(item), (item) => !IsBusy);
-      
+            SearchCommand = new Command(async (text) => await Search(text), (text) => !IsBusy);
+            AddTaskCommand = new Command(async () => await AddTask(), () => !IsBusy);
         }
 
         public async void LoadData()
@@ -113,6 +134,33 @@ namespace TODODemo.ViewModel
                     Items = new ObservableCollection<TodoItem>(await _manager.GetAllPendingTaskAsync());
                 }else
                     Items = new ObservableCollection<TodoItem>(await _manager.GetAllCompletedTaskAsync());
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (error != null)
+                await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
+        }
+
+        private async Task AddTask()
+        {
+            if (IsBusy)
+                return;
+
+            Exception error = null;
+
+            try
+            {
+                IsBusy = true;
+
+                var addTask = new AddTaskPage();
+                await Application.Current.MainPage.Navigation.PushAsync(addTask);
             }
             catch (Exception ex)
             {
@@ -212,6 +260,46 @@ namespace TODODemo.ViewModel
 
                 DependencyService.Get<IShareFile>().ShareLocalFile(todoItem);
 
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (error != null)
+                await Application.Current.MainPage.DisplayAlert("Error", error.Message, "OK");
+
+        }
+
+        private async Task Search(object text)
+        {
+            if (IsBusy)
+                return;
+
+            if (text == null)
+                return;
+
+
+            Exception error = null;
+
+            try
+            {
+                IsBusy = true;
+
+                var busqueda = text.ToString();
+
+                var status = string.Equals(Title, "Pending") ? StatusType.Pending : StatusType.Completed;
+
+                if(!string.IsNullOrEmpty(SearchText) && !string.IsNullOrWhiteSpace(SearchText))
+                    Items = new ObservableCollection<TodoItem>(await _manager.GetTaskByContentAndStatus(busqueda, status));
+                else if(!string.IsNullOrEmpty(SearchText) && status == StatusType.Pending)
+                    Items = new ObservableCollection<TodoItem>(await _manager.GetAllPendingTaskAsync());
+                else if (!string.IsNullOrEmpty(SearchText) && status == StatusType.Completed)
+                    Items = new ObservableCollection<TodoItem>(await _manager.GetAllCompletedTaskAsync());
             }
             catch (Exception ex)
             {

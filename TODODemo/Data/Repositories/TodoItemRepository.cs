@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using TODODemo.Data.Models;
@@ -74,6 +75,21 @@ namespace TODODemo.Data.Repositories
             var item = await base.FindById(id);
 
             return item;
+        }
+
+        public async Task<IList<TodoItem>> GetTaskByContentAndStatus(string busqueda, StatusType status,CancellationToken? token = null)
+        {
+            if (token.HasValue)
+            {
+                token.Value.ThrowIfCancellationRequested();
+            }
+
+            IList<TodoItem> items = await ConnectionAsync.Table<TodoItem>().
+                                                         Where(x => x.Status == status && x.Content.Contains(busqueda)).
+                                                         OrderByDescending(x => x.LastModified).
+                                                         ToListAsync().ConfigureAwait(false);
+
+            return items;
         }
 
     }

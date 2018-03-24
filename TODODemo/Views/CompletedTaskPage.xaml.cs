@@ -7,22 +7,22 @@ namespace TODODemo.Views
 {
     public partial class CompletedTaskPage : ContentPage
     {
-        TasksViewModel tasksViewModel;
+        TasksViewModel _tasksViewModel;
 
-        public CompletedTaskPage()
+        public CompletedTaskPage(TasksViewModel tasksViewModel)
         {
             InitializeComponent();
 
-            tasksViewModel = new TasksViewModel();
-            BindingContext = tasksViewModel;
+            _tasksViewModel = tasksViewModel;
+            BindingContext = _tasksViewModel;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            tasksViewModel.Title = "Completed";
-            tasksViewModel.LoadData();
+            _tasksViewModel.Title = "Completed";
+            _tasksViewModel.LoadData();
         }
     }
 }

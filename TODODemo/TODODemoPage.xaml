@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<renderers:SearchPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="TODODemo.TODODemoPage"
-            xmlns:local="clr-namespace:TODODemo.Views">
-    <TabbedPage.ToolbarItems>
-        <ToolbarItem Text="Agregar" Icon="ic_playlist_add_white" Command="{Binding AddTaskCommand}"/>
-    </TabbedPage.ToolbarItems>
+            xmlns:local="clr-namespace:TODODemo.Views"
+            xmlns:renderers="clr-namespace:TODODemo.Renderers"
+            SearchPlaceHolderText="Type to Search"
+            SearchCommand="{Binding SearchCommand}"
+            SearchText="{Binding SearchText, Mode=TwoWay}"          
+            x:Name="TodoPageTabbed">
 
-    <local:PendingTaskPage Title="Pending" Icon="ic_list_white" />
-    <local:CompletedTaskPage Title="Completed" Icon="ic_playlist_add_check_white"/>
-</TabbedPage>
+    <!--<local:PendingTaskPage Title="Pending" Icon="ic_list_white"/>
+    <local:CompletedTaskPage Title="Completed" Icon="ic_playlist_add_check_white"/>-->
+</renderers:SearchPage>

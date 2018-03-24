@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using TODODemo.Renderers;
+using TODODemo.Views;
+using Xamarin.Forms;
 
 namespace TODODemo
 {
