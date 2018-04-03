@@ -15,10 +15,11 @@ namespace IOS.Renderer
     {
         
         private UIButton _searchButton;
+        private UIButton _addButton;
         private UIButton _cancelButton;
         private UIBarButtonItem _searchbarButtonItem;
         private UIView _defaultTitleView;
-
+        private UITextField _searchTextField;
 		protected override void OnElementChanged(VisualElementChangedEventArgs e)
 		{
             base.OnElementChanged(e);
@@ -52,9 +53,17 @@ namespace IOS.Renderer
             base.ViewWillAppear(animated);
             _defaultTitleView = NavigationItem?.TitleView;
             CreateSearchButton();
+            CreateAddButton();
             CreateSearchToolbar();
             CreateCancelButton();
-            DisplayLeftBarButton(_searchButton);
+
+            UIBarButtonItem[] buttons = new UIBarButtonItem[]
+            {
+                new UIBarButtonItem(_searchButton),
+                new UIBarButtonItem(_addButton)
+            };
+
+            DisplayLeftBarButton(buttons);
         }
 
         private void CreateSearchButton()
@@ -77,6 +86,26 @@ namespace IOS.Renderer
             _searchButton.TouchUpInside += SearchButton_TouchUpInside;
         }
 
+        private void CreateAddButton()
+        {
+            if (NavigationController?.NavigationBar == null)
+            {
+                return;
+            }
+            var height = NavigationController.NavigationBar.Frame.Height;
+            var searchButtonView = new UIView(new CGRect(0, 0, 50, height));
+            _addButton = new UIButton(UIButtonType.System)
+            {
+                BackgroundColor = UIColor.Clear,
+                Frame = searchButtonView.Frame,
+                AutosizesSubviews = true,
+                AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleMargins
+            };
+            _addButton.SetTitle("\u002b", UIControlState.Normal);
+            _addButton.TouchUpInside -= AddButton_TouchUpInside;
+            _addButton.TouchUpInside += AddButton_TouchUpInside;
+        }
+
         private void CreateSearchToolbar()
         {
             var element = Element as SearchPage;
@@ -95,37 +124,38 @@ namespace IOS.Renderer
                 Spacing = 3
             };
 
-            var searchTextField = new UITextField
+            _searchTextField = new UITextField
             {
                 BackgroundColor = UIColor.White,
                 AttributedPlaceholder = new NSAttributedString(element.SearchPlaceHolderText, foregroundColor: UIColor.Gray),
                 Placeholder = element.SearchPlaceHolderText,
             };
-            searchTextField.SizeToFit();
+            _searchTextField.SizeToFit();
 
             // Delete button
-            var textDeleteButton = new UIButton(new CGRect(0, 0, searchTextField.Frame.Size.Height + 5, searchTextField.Frame.Height)) { BackgroundColor = UIColor.Clear };
+            var textDeleteButton = new UIButton(new CGRect(0, 0, _searchTextField.Frame.Size.Height + 5, _searchTextField.Frame.Height)) { BackgroundColor = UIColor.Clear };
             textDeleteButton.SetTitleColor(UIColor.FromRGB(146, 146, 146), UIControlState.Normal);
             textDeleteButton.SetTitle("\u24CD", UIControlState.Normal);
 
             textDeleteButton.TouchUpInside += (sender, e) =>
             {
-                searchTextField.Text = string.Empty;
-                searchTextField.ResignFirstResponder();
+                _searchTextField.Text = string.Empty;
+                _searchTextField.ResignFirstResponder();
+                element.SetValue(SearchPage.SearchTextProperty, _searchTextField.Text);
             };
 
-            searchTextField.RightView = textDeleteButton;
-            searchTextField.RightViewMode = UITextFieldViewMode.Always;
+            _searchTextField.RightView = textDeleteButton;
+            _searchTextField.RightViewMode = UITextFieldViewMode.Always;
 
             // Border
-            searchTextField.BorderStyle = UITextBorderStyle.RoundedRect;
-            searchTextField.Layer.BorderColor = UIColor.FromRGB(239, 239, 239).CGColor;
-            searchTextField.Layer.BorderWidth = 1;
-            searchTextField.Layer.CornerRadius = 5;
-            searchTextField.EditingChanged += (sender, e) => element.SetValue(SearchPage.SearchTextProperty, searchTextField.Text);
-            searchTextField.KeyboardType = UIKeyboardType.Default;
-            searchTextField.EditingDidEndOnExit += (sender, e) => element.SearchCommand?.Execute(searchTextField.Text);
-            searchBar.AddArrangedSubview(searchTextField);
+            _searchTextField.BorderStyle = UITextBorderStyle.RoundedRect;
+            _searchTextField.Layer.BorderColor = UIColor.FromRGB(239, 239, 239).CGColor;
+            _searchTextField.Layer.BorderWidth = 1;
+            _searchTextField.Layer.CornerRadius = 5;
+            _searchTextField.EditingChanged += (sender, e) => element.SetValue(SearchPage.SearchTextProperty, _searchTextField.Text);
+            _searchTextField.KeyboardType = UIKeyboardType.Default;
+            _searchTextField.EditingDidEndOnExit += (sender, e) => element.SearchCommand?.Execute(_searchTextField.Text);
+            searchBar.AddArrangedSubview(_searchTextField);
 
             _searchbarButtonItem = new UIBarButtonItem(searchBar);
         }
@@ -162,11 +192,11 @@ namespace IOS.Renderer
             }
         }
 
-        private void DisplayLeftBarButton(UIView button)
+        private void DisplayLeftBarButton(UIBarButtonItem[] buttons)
         {
             if (ParentViewController?.NavigationItem != null)
             {
-                ParentViewController.NavigationItem.LeftBarButtonItem = new UIBarButtonItem(button);
+                ParentViewController.NavigationItem.LeftBarButtonItems = buttons;
             }
         }
 
@@ -179,33 +209,58 @@ namespace IOS.Renderer
         }
 
 
-        private void ClearLeftToolbarButton()
+        private void ClearLeftToolbarButtons()
         {
             if (ParentViewController?.NavigationItem != null)
             {
-                ParentViewController.NavigationItem.LeftBarButtonItem = null;
+                ParentViewController.NavigationItem.LeftBarButtonItems = null;
             }
         }
 
         private void SearchButton_TouchUpInside(object sender, System.EventArgs e) => ShowSearchToolbar();
 
+        private void AddButton_TouchUpInside(object sender, System.EventArgs e)
+        {
+            var element = Element as SearchPage;
+            if (element == null)
+            {
+                return;
+            }
+            element.AddCommand?.Execute(null);
+        }
+
         private void CancelButton_TouchUpInside(object sender, System.EventArgs e)
         {
+            var element = Element as SearchPage;
+
+            _searchTextField.Text = string.Empty;
+            _searchTextField.ResignFirstResponder();
+            element.SearchCommand?.Execute(_searchTextField.Text);
+
             ClearRightToolbarButton();
             HideSearchToolbar();
-            DisplayLeftBarButton(_searchButton);
+
+            UIBarButtonItem[] buttons = new UIBarButtonItem[]
+            {
+                new UIBarButtonItem(_searchButton),
+                new UIBarButtonItem(_addButton)
+            };
+            DisplayLeftBarButton(buttons);
+            //DisplayLeftBarButton(_addButton);
         }
 
         private void ShowSearchButton()
         {
-            ClearLeftToolbarButton();
+            ClearLeftToolbarButtons();
             HideSearchToolbar();
             CreateSearchButton();
 
-            UIBarButtonItem button = new UIBarButtonItem(_searchButton);
+            UIBarButtonItem[] buttons = new UIBarButtonItem[] 
+            { 
+                new UIBarButtonItem(_searchButton)
+            };
 
-
-            NavigationItem.SetLeftBarButtonItem(button, true);
+            NavigationItem.SetLeftBarButtonItems(buttons, true);
 
             NavigationItem.TitleView = new UIView();
 
@@ -215,7 +270,7 @@ namespace IOS.Renderer
             }
 
 
-            ParentViewController.NavigationItem.LeftBarButtonItem = this.NavigationItem.LeftBarButtonItem;
+            ParentViewController.NavigationItem.LeftBarButtonItems = this.NavigationItem.LeftBarButtonItems;
            
             ParentViewController.NavigationItem.TitleView = this.NavigationItem.TitleView;
         }
@@ -233,7 +288,7 @@ namespace IOS.Renderer
             {
                 return;
             }
-            ParentViewController.NavigationItem.LeftBarButtonItem = NavigationItem.LeftBarButtonItem;
+            ParentViewController.NavigationItem.LeftBarButtonItems = NavigationItem.LeftBarButtonItems;
             ParentViewController.NavigationItem.TitleView = NavigationItem.TitleView;
         }
 
@@ -244,7 +299,7 @@ namespace IOS.Renderer
             {
                 return;
             }
-            ParentViewController.NavigationItem.LeftBarButtonItem = null;
+            ParentViewController.NavigationItem.LeftBarButtonItems = null;
             ParentViewController.NavigationItem.TitleView = NavigationItem.TitleView;
         }
     }

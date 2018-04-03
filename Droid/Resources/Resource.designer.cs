@@ -2868,6 +2868,9 @@ namespace TODODemo.Droid
 			// aapt resource value: 0x7f09001e
 			public const int add = 2131296286;
 			
+			// aapt resource value: 0x7f0900b7
+			public const int addTodo = 2131296439;
+			
 			// aapt resource value: 0x7f090058
 			public const int alertTitle = 2131296344;
 			

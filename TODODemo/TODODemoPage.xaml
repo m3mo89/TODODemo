@@ -6,7 +6,8 @@
             xmlns:renderers="clr-namespace:TODODemo.Renderers"
             SearchPlaceHolderText="Type to Search"
             SearchCommand="{Binding SearchCommand}"
-            SearchText="{Binding SearchText, Mode=TwoWay}"          
+            SearchText="{Binding SearchText, Mode=TwoWay}"
+            AddCommand="{Binding AddTaskCommand}"          
             x:Name="TodoPageTabbed">
 
     <!--<local:PendingTaskPage Title="Pending" Icon="ic_list_white"/>

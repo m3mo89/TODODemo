@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using Android.Content;
 using Android.Runtime;
+using Android.Support.V7.Widget;
 using Android.Text;
+using Android.Views;
 using Android.Views.InputMethods;
 using Plugin.CurrentActivity;
 using TODODemo.Droid.Renderers;
@@ -18,7 +20,7 @@ namespace TODODemo.Droid.Renderers
     public class SearchPageRenderer : TabbedPageRenderer
     {
         private SearchView _searchView;
-
+        //private Toolbar maintoolbar;
         public SearchPageRenderer(Context context)
             : base(context)
         {
@@ -91,6 +93,11 @@ namespace TODODemo.Droid.Renderers
             var actionSearch = Resource.Id.action_search;
             System.Diagnostics.Debug.WriteLine("SearchPageRenderer AddSearchToToolBar actionSearch " + actionSearch);
             _searchView = maintoolbar.Menu?.FindItem(Resource.Id.action_search)?.ActionView?.JavaCast<SearchView>();
+
+            var test = maintoolbar.Menu.FindItem(Resource.Id.addTodo).SetIcon(Resource.Drawable.ic_playlist_add_white); // 'heart' image border only
+
+            maintoolbar.MenuItemClick += OnMenuItemClick;
+           
             // _searchView = MainActivity.ToolBar.Menu?.FindItem(Resource.Id.action_search)?.ActionView?.JavaCast<SearchView>();
 
             if (_searchView == null)
@@ -117,7 +124,41 @@ namespace TODODemo.Droid.Renderers
 
         }
 
-        private void searchView_QueryTextSubmit(object sender, SearchView.QueryTextSubmitEventArgs e)
+
+        private void OnMenuItemClick(object sender, Toolbar.MenuItemClickEventArgs e)
+        {
+
+            if (e == null)
+            {
+                return;
+            }
+
+            var searchPage = Element as SearchPage;
+            if (searchPage == null)
+            {
+                return;
+            }
+
+            var item = e.Item;
+
+            switch (item.ItemId)
+            {
+                case Resource.Id.addTodo:
+                    searchPage.AddCommand?.Execute(null);
+                    break;
+            }
+
+            e.Handled = true;
+        }
+
+		protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
+		{
+            base.OnLayout(changed, left, top, right, bottom);
+
+            //AddSearchToToolBar();
+		}
+
+		private void searchView_QueryTextSubmit(object sender, SearchView.QueryTextSubmitEventArgs e)
         {
             if (e == null)
             {

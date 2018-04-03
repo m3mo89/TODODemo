@@ -9,6 +9,7 @@ namespace TODODemo.Renderers
         public static readonly BindableProperty SearchPlaceHolderTextProperty = BindableProperty.Create(nameof(SearchPlaceHolderText), typeof(string), typeof(SearchPage), string.Empty);
         public static readonly BindableProperty SearchTextProperty = BindableProperty.Create(nameof(SearchText), typeof(string), typeof(SearchPage), string.Empty);
         public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(nameof(SearchCommand), typeof(ICommand), typeof(SearchPage));
+        public static readonly BindableProperty AddCommandProperty = BindableProperty.Create(nameof(AddCommand), typeof(ICommand), typeof(SearchPage));
 
 
         public string SearchPlaceHolderText
@@ -44,6 +45,18 @@ namespace TODODemo.Renderers
             set
             {
                 SetValue(SearchCommandProperty, value);
+            }
+        }
+
+        public ICommand AddCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(AddCommandProperty);
+            }
+            set
+            {
+                SetValue(AddCommandProperty, value);
             }
         }
     }

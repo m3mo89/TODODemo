@@ -296,9 +296,9 @@ namespace TODODemo.ViewModel
 
                 if(!string.IsNullOrEmpty(SearchText) && !string.IsNullOrWhiteSpace(SearchText))
                     Items = new ObservableCollection<TodoItem>(await _manager.GetTaskByContentAndStatus(busqueda, status));
-                else if(!string.IsNullOrEmpty(SearchText) && status == StatusType.Pending)
+                else if(string.IsNullOrEmpty(SearchText) && status == StatusType.Pending)
                     Items = new ObservableCollection<TodoItem>(await _manager.GetAllPendingTaskAsync());
-                else if (!string.IsNullOrEmpty(SearchText) && status == StatusType.Completed)
+                else if (string.IsNullOrEmpty(SearchText) && status == StatusType.Completed)
                     Items = new ObservableCollection<TodoItem>(await _manager.GetAllCompletedTaskAsync());
             }
             catch (Exception ex)
